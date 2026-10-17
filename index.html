@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Palettes</title>
+<style>
+:root { --bg:#fbfbfd; --fg:#1d1d1f; --muted:#6e6e73; --line:#d2d2d7; --link:#0066cc; --card:#fff; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#000; --fg:#f5f5f7; --muted:#a1a1a6; --line:#38383a; --link:#2997ff; --card:#1c1c1e; }
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+  font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; }
+main { max-width: 680px; margin: 0 auto; padding: 48px 20px 64px; }
+nav { display:flex; gap:20px; font-size:15px; margin-bottom:40px; }
+nav a { color:var(--muted); text-decoration:none; }
+nav a[aria-current] { color:var(--fg); font-weight:600; }
+.brand { color:var(--fg); font-weight:600; margin-right:auto; }
+h1 { font-size: 40px; line-height:1.1; letter-spacing:-0.02em; margin:0 0 8px; }
+h2 { font-size: 22px; letter-spacing:-0.01em; margin:40px 0 8px; }
+h3 { font-size: 17px; margin:28px 0 4px; }
+p { margin: 0 0 14px; }
+.lede, h1 + p { color:var(--muted); }
+a { color:var(--link); }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin:24px 0; }
+footer { margin-top:56px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:14px; }
+</style>
+</head>
+<body>
+<main>
+<nav><a class="brand" href="">Palettes</a><a href="support/">Support</a><a href="privacy/">Privacy</a></nav>
+
+<h1>Palettes</h1>
+<p class="lede">Collect colors, build palettes, and export them anywhere. For iPhone and iPad.</p>
+<div class="card">
+<p style="margin:0"><a href="support/">Support</a> — help and contact<br>
+<a href="privacy/">Privacy Policy</a> — Palettes doesn't collect your data</p>
+</div>
+
+<footer>Palettes by Halil Bagosi · <a href="mailto:support@halilbagosi.com">support@halilbagosi.com</a></footer>
+</main>
+</body>
+</html>

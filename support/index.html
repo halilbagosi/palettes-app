@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Palettes Support</title>
+<style>
+:root { --bg:#fbfbfd; --fg:#1d1d1f; --muted:#6e6e73; --line:#d2d2d7; --link:#0066cc; --card:#fff; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#000; --fg:#f5f5f7; --muted:#a1a1a6; --line:#38383a; --link:#2997ff; --card:#1c1c1e; }
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+  font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; }
+main { max-width: 680px; margin: 0 auto; padding: 48px 20px 64px; }
+nav { display:flex; gap:20px; font-size:15px; margin-bottom:40px; }
+nav a { color:var(--muted); text-decoration:none; }
+nav a[aria-current] { color:var(--fg); font-weight:600; }
+.brand { color:var(--fg); font-weight:600; margin-right:auto; }
+h1 { font-size: 40px; line-height:1.1; letter-spacing:-0.02em; margin:0 0 8px; }
+h2 { font-size: 22px; letter-spacing:-0.01em; margin:40px 0 8px; }
+h3 { font-size: 17px; margin:28px 0 4px; }
+p { margin: 0 0 14px; }
+.lede, h1 + p { color:var(--muted); }
+a { color:var(--link); }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin:24px 0; }
+footer { margin-top:56px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:14px; }
+</style>
+</head>
+<body>
+<main>
+<nav><a class="brand" href="../">Palettes</a><a href="../support/" aria-current="page">Support</a><a href="../privacy/">Privacy</a></nav>
+
+<h1>Palettes Support</h1>
+<p class="lede">Help with Palettes, the color and palette app for iPhone and iPad.</p>
+
+<div class="card">
+<h2 style="margin-top:0">Contact</h2>
+<p>Email <a href="mailto:support@halilbagosi.com">support@halilbagosi.com</a>. Please include your device model, iOS version, and what happened, and I'll get back to you as soon as I can.</p>
+</div>
+
+<h2>Frequently asked questions</h2>
+
+<h3>What do I need to run Palettes?</h3>
+<p>An iPhone or iPad running iOS 17 or later. Generating palettes from a description needs iOS 26 on a device that supports Apple Intelligence, with Apple Intelligence turned on in Settings.</p>
+
+<h3>How does iCloud sync work?</h3>
+<p>If you're signed in to iCloud, your colors, palettes, and tags sync through your private iCloud database to your other devices signed in to the same Apple Account. Make sure iCloud is on for Palettes in Settings › [your name] › iCloud. Changes can take a few moments to appear on other devices, especially on a slow connection.</p>
+
+<h3>Why can't I generate a palette?</h3>
+<p>Generation uses Apple's on-device Foundation Models. Check that your device supports Apple Intelligence, that it's turned on in Settings › Apple Intelligence &amp; Siri, and that the model has finished downloading. On other devices you can still create palettes by hand, from photos, or from color harmonies.</p>
+
+<h3>How do I pick colors from a photo?</h3>
+<p>Use Scan to take a photo with the camera, or choose one from your library. Photos are processed on your device and are never uploaded. If the camera doesn't open, allow it in Settings › Privacy &amp; Security › Camera.</p>
+
+<h3>How do I export my palettes?</h3>
+<p>Open a palette and use Share to export it as CSS, SCSS, SwiftUI, Tailwind, JSON, HEX, SVG, ASE, PDF, or a Coolors link. To save your whole library, go to Settings and tap Export Library.</p>
+
+<h3>How do I delete my data?</h3>
+<p>Go to Settings in Palettes and tap Delete All Data. This removes everything from this device and, if iCloud sync is on, from your private iCloud database and your other devices.</p>
+
+<h2>Privacy</h2>
+<p>Palettes doesn't collect any of your data. Read the full <a href="../privacy/">Privacy Policy</a>.</p>
+
+<footer>Palettes by Halil Bagosi · <a href="mailto:support@halilbagosi.com">support@halilbagosi.com</a></footer>
+</main>
+</body>
+</html>
