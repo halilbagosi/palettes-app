@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["KCH5545G6F.com.halilbagosi.Palettes"],
+        "components": [
+          { "/": "/p/*", "comment": "A shared palette; the colors are in the #fragment" },
+          { "/": "/c/*", "comment": "A shared color; the color is in the #fragment" }
+        ]
+      }
+    ]
+  }
+}

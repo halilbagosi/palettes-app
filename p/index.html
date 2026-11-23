@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>Shared from Palettes</title>
+<meta property="og:title" content="Shared from Palettes">
+<meta property="og:description" content="Open it in Palettes to save it to your library.">
+<meta property="og:site_name" content="Palettes">
+<style>
+:root { --bg:#fbfbfd; --fg:#1d1d1f; --muted:#6e6e73; --line:#d2d2d7; --link:#0066cc; --card:#fff; --accent:#ff5c7a; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#000; --fg:#f5f5f7; --muted:#a1a1a6; --line:#38383a; --link:#2997ff; --card:#1c1c1e; }
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+  font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; }
+main { max-width: 560px; margin: 0 auto; padding: 48px 20px 64px; }
+nav { display:flex; font-size:15px; margin-bottom:32px; }
+.brand { color:var(--fg); font-weight:600; text-decoration:none; }
+.kind { color:var(--muted); font-size:15px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:0 0 10px; }
+.strip { display:flex; height:140px; border-radius:22px; overflow:hidden; border:1px solid var(--line); }
+.strip div { flex:1; }
+h1 { font-size: 32px; line-height:1.15; letter-spacing:-0.02em; margin:16px 0 4px; overflow-wrap:anywhere; }
+.meta { color:var(--muted); margin:0 0 20px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size:15px; }
+ul { list-style:none; margin:0 0 28px; padding:0; background:var(--card); border:1px solid var(--line); border-radius:16px; }
+li { display:flex; align-items:center; gap:12px; padding:10px 14px; }
+li + li { border-top:1px solid var(--line); }
+.dot { width:26px; height:26px; border-radius:50%; flex:none; border:1px solid rgba(127,127,127,.25); }
+.name { flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hex { color:var(--muted); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size:14px; }
+.get { display:block; text-align:center; background:var(--accent); color:#fff; font-weight:600; text-decoration:none;
+  padding:15px 20px; border-radius:999px; }
+.note { color:var(--muted); font-size:15px; text-align:center; margin-top:14px; }
+.empty h1 { margin-top:0; }
+</style>
+</head>
+<body>
+<main>
+<nav><a class="brand" href="/">Palettes</a></nav>
+
+<div id="shared" hidden>
+  <p class="kind" id="kind"></p>
+  <div class="strip" id="strip"></div>
+  <h1 id="name"></h1>
+  <p class="meta" id="meta"></p>
+  <ul id="list"></ul>
+</div>
+
+<div id="empty" class="empty" hidden>
+  <h1>Palettes</h1>
+  <p class="meta">This link doesn't hold a palette or color.</p>
+</div>
+
+<a class="get" id="get" href="https://apps.apple.com/app/id6827543855">Get Palettes on the App Store</a>
+<p class="note" id="note">Already have Palettes? Open this link from Messages, Mail or Notes to save it.</p>
+</main>
+
+<script>
+// The link carries everything in its #fragment (see SharedLink.swift in the
+// app): base64url JSON {"v":1,"n":name,"c":[{"h":"RRGGBB","n":name,"r":role}]}.
+// The fragment never reaches the server. With Palettes installed, iOS opens
+// these links in the app and this page never loads.
+(function () {
+  var STORE = "https://apps.apple.com/app/id6827543855";
+
+  function decode(fragment) {
+    try {
+      var b64 = fragment.replace(/-/g, "+").replace(/_/g, "/");
+      while (b64.length % 4) b64 += "=";
+      var bytes = Uint8Array.from(atob(b64), function (c) { return c.charCodeAt(0); });
+      var data = JSON.parse(new TextDecoder().decode(bytes));
+      if (!data || data.v !== 1 || !Array.isArray(data.c)) return null;
+      var swatches = data.c.slice(0, 20).filter(function (s) {
+        return s && typeof s.h === "string" && /^#?[0-9a-fA-F]{6}$/.test(s.h);
+      }).map(function (s) {
+        var hex = "#" + s.h.replace("#", "").toUpperCase();
+        var name = typeof s.n === "string" && s.n.trim() ? s.n.trim().slice(0, 80) : hex;
+        return { hex: hex, name: name };
+      });
+      if (!swatches.length) return null;
+      var name = typeof data.n === "string" && data.n.trim() ? data.n.trim().slice(0, 80) : null;
+      return { name: name, swatches: swatches };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  var isColor = location.pathname.indexOf("/c/") === 0;
+  var shared = decode(location.hash.slice(1));
+
+  if (shared) {
+    var title = isColor ? shared.swatches[0].name : (shared.name || "Shared Palette");
+    document.title = title + " · Palettes";
+    document.getElementById("kind").textContent = isColor ? "Shared color" : "Shared palette";
+    document.getElementById("name").textContent = title;
+    var strip = document.getElementById("strip");
+    var list = document.getElementById("list");
+    var shown = isColor ? shared.swatches.slice(0, 1) : shared.swatches;
+    shown.forEach(function (s) {
+      var band = document.createElement("div");
+      band.style.background = s.hex;
+      strip.appendChild(band);
+      var row = document.createElement("li");
+      var dot = document.createElement("span");
+      dot.className = "dot";
+      dot.style.background = s.hex;
+      var name = document.createElement("span");
+      name.className = "name";
+      name.textContent = s.name;
+      var hex = document.createElement("span");
+      hex.className = "hex";
+      hex.textContent = s.hex;
+      row.appendChild(dot); row.appendChild(name); row.appendChild(hex);
+      list.appendChild(row);
+    });
+    document.getElementById("meta").textContent = isColor
+      ? shown[0].hex
+      : shown.length + (shown.length === 1 ? " color" : " colors");
+    if (isColor) list.hidden = true;
+    document.getElementById("shared").hidden = false;
+  } else {
+    document.getElementById("empty").hidden = false;
+    document.getElementById("note").hidden = true;
+  }
+
+  // Reaching this page on an iPhone or iPad means Palettes didn't open the
+  // link, so it isn't installed: go to the App Store.
+  var ua = navigator.userAgent;
+  var iOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  if (iOS && shared) location.replace(STORE);
+})();
+</script>
+</body>
+</html>
